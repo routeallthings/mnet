@@ -10,7 +10,7 @@ The tools are focused on Cisco devices.
 
 If you use any of these tools or find them useful please consider donating.  
 
-My bitcoin address is: [**`14J9R95Sru4d489W1B4Mk3hh1bWpBV9Rpb`**](https://blockchain.info/address/14J9R95Sru4d489W1B4Mk3hh1bWpBV9Rpb)
+My bitcoin address is: [**``**](https://blockchain.info/address/)
 
 # Suite Tools
 | Module | Description |
