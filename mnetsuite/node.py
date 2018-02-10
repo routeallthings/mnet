@@ -464,7 +464,7 @@ class mnet_node:
 						svi_ips = self._get_cidrs_from_ifidx(v)
 						svi.ip.extend(svi_ips)
 						self.svis.append(svi)
-					else:
+					except:
 						pass
 
 		# loopback
