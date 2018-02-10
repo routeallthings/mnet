@@ -457,12 +457,15 @@ class mnet_node:
 
 			for row in self.svi_vbtbl:
 				for n, v in row:
-					n = str(n)
-					vlan = n.split('.')[14]
-					svi = mnet_node_svi(vlan)
-					svi_ips = self._get_cidrs_from_ifidx(v)
-					svi.ip.extend(svi_ips)
-					self.svis.append(svi)
+					try:
+						n = str(n)
+						vlan = n.split('.')[14]
+						svi = mnet_node_svi(vlan)
+						svi_ips = self._get_cidrs_from_ifidx(v)
+						svi.ip.extend(svi_ips)
+						self.svis.append(svi)
+					else:
+						pass
 
 		# loopback
 		if (self.opts.get_lo == True):
