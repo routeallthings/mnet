@@ -142,6 +142,9 @@ class mnet_graph:
 
 		node.name = node._get_system_name(self.config.host_domains)
 
+		if node.name == '' or node.name == None:
+			node.name = 'UNKNOWN'
+		
 		# verify this node isn't already in our visited
 		# list by checking for its hostname
 		for ex in self.nodes:
