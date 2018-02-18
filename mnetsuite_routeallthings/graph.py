@@ -31,6 +31,7 @@ import pydot
 import datetime
 import os
 import binascii
+import re
 
 from snmp import *
 from config import mnet_config
@@ -265,7 +266,9 @@ class mnet_graph:
 	def is_node_allowed(self, ip):
 		if ((ip == 'UNKNOWN') | (ip == '')):
 			return 1
-
+		# Additional check to fix failed IP address format
+		if not re.match(r'^(\d+.\d+.\d+.\d+)$',ip)
+			return 1
 		ipaddr = None
 		if (USE_NETADDR):
 			ipaddr = IPAddress(ip)
