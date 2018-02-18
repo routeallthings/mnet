@@ -18,12 +18,12 @@ from setuptools import setup
 import os
 
 import imp
-_version = imp.load_source('', 'mnetsuite/_version.py')
+_version = imp.load_source('', 'mnetsuite_routeallthings/_version.py')
 
 long_description = open('README.md').read()
 
 setup(
-	name				= 'mnet',
+	name				= 'mnet_routeallthings',
 	version				= _version.__version__,
 	author				= 'Michael Laforest',
 	author_email		= 'mjlaforest@gmail.com',
@@ -43,7 +43,7 @@ setup(
 		'Topic :: Utilities'
 	],
 
-	packages = ['mnetsuite'],
+	packages = ['mnetsuite_routeallthings'],
 	include_package_data = True,
 
 	scripts = [ 'mnet.py' ],
