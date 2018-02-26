@@ -267,7 +267,7 @@ class mnet_graph:
 		if ((ip == 'UNKNOWN') | (ip == '')):
 			return 1
 		# Additional check to fix failed IP address format
-		if not re.match(r'^(\d+.\d+.\d+.\d+)$',ip)
+		if not re.match(r'^(\d+.\d+.\d+.\d+)$',ip):
 			ip = 'UNKNOWN'
 			return 1
 		ipaddr = None
