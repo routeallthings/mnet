@@ -145,6 +145,8 @@ class mnet_graph:
 		node.name = node._get_system_name(self.config.host_domains)
 
 		if node.name == '' or node.name == None:
+			node.name = 'UNKNOWN'
+			'''
 			try:
 				for indip in node.ip:
 					ip = indip.split('.')
@@ -153,7 +155,7 @@ class mnet_graph:
 				indip = node.ip
 				ip = indip.split('.')
 				ip = '{:02X}{:02X}{:02X}{:02X}'.format(*map(int, ip))
-		
+			'''
 		# verify this node isn't already in our visited
 		# list by checking for its hostname
 		for ex in self.nodes:
