@@ -24,9 +24,17 @@
 	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 '''
 
+import re
 from pysnmp.entity.rfc3413.oneliner import cmdgen
 
+IP_ADDRESS = re.compile("^\d{1,3}.\d{1,3}.\d{1,3}.\d{1,3}$")
+
 SNMP_PORT = 161
+
+# Global OIDs
+OID_SYSNAME		= '1.3.6.1.2.1.1.5.0'
+OID_ERR			= 'No Such Object currently exists at this OID'
+OID_ERR_INST	= 'No Such Instance currently exists at this OID'
 
 OID_SYSNAME		= '1.3.6.1.2.1.1.5.0'
 
@@ -93,15 +101,11 @@ OID_ENTPHYENTRY_SOFTWARE = '1.3.6.1.2.1.47.1.1.1.1.9'		# + .modidx
 OID_ENTPHYENTRY_SERIAL   = '1.3.6.1.2.1.47.1.1.1.1.11'		# + .modidx
 OID_ENTPHYENTRY_PLAT     = '1.3.6.1.2.1.47.1.1.1.1.13'		# + .modidx
 
-# mnet-tracemac
 OID_VLANS			= '1.3.6.1.4.1.9.9.46.1.3.1.1.2'
 OID_VLAN_CAM		= '1.3.6.1.2.1.17.4.3.1.1'
 
 OID_BRIDGE_PORTNUMS	= '1.3.6.1.2.1.17.4.3.1.2'
 OID_IFINDEX			= '1.3.6.1.2.1.17.1.4.1.2'
-
-OID_ERR			= 'No Such Object currently exists at this OID'
-OID_ERR_INST	= 'No Such Instance currently exists at this OID'
 
 # OID_ENTPHYENTRY_CLASS values
 ENTPHYCLASS_OTHER         = 1
@@ -128,7 +132,11 @@ class mnet_snmp:
 		self.ver = 0
 		self.v2_community = None
 		self._ip = ip
-
+	#
+	# Try to find valid SNMP credentials in the provided list.
+	# Returns 1 if success, 0 if failed.
+	#
+		
 	#
 	# Try to find valid SNMP credentials in the provided list.
 	# Returns 1 if success, 0 if failed.
@@ -138,27 +146,24 @@ class mnet_snmp:
 			# we don't currently support anything other than SNMPv2
 			if (cred['ver'] != 2):
 				continue
-
-			community = cred['community']
-
-			cmdGen = cmdgen.CommandGenerator()
-			errIndication, errStatus, errIndex, varBinds = cmdGen.getCmd(
-					cmdgen.CommunityData(community),
-					cmdgen.UdpTransportTarget((self._ip, SNMP_PORT)),
-					'1.3.6.1.2.1.1.5.0',
-					lookupNames = False, lookupValues = False
-			)
-			if errIndication:
-				continue
-			else:
-				self.ver = 2
-				self.success = 1
-				self.v2_community = community
-
-				return 1
-
+			if IP_ADDRESS.match(self._ip):
+				community = cred['community']
+				cmdGen = cmdgen.CommandGenerator()
+				errIndication, errStatus, errIndex, varBinds = cmdGen.getCmd(
+						cmdgen.CommunityData(community),
+						cmdgen.UdpTransportTarget((self._ip, SNMP_PORT)),
+						'1.3.6.1.2.1.1.5.0',
+						lookupNames = False, lookupValues = False
+				)
+				if errIndication:
+					continue
+				else:
+					self.ver = 2
+					self.success = 1
+					self.v2_community = community
+					return 1
 		return 0
-
+	
 	#
 	# Get single SNMP value at OID.
 	#
