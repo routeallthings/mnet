@@ -267,8 +267,14 @@ class mnet_node_vss:
 						return
 
 					self.members[module].ios    = snmpobj.cache_lookup(ios_vbtbl, OID_ENTPHYENTRY_SOFTWARE + '.' + modidx)
+					if '\x00' in self.members[module].ios:
+						self.members[module].ios = ''
 					self.members[module].serial = snmpobj.cache_lookup(serial_vbtbl, OID_ENTPHYENTRY_SERIAL + '.' + modidx)
+					if '\x00' in self.members[module].serial:
+						self.members[module].serial = ''
 					self.members[module].plat   = snmpobj.cache_lookup(plat_vbtbl, OID_ENTPHYENTRY_PLAT + '.' + modidx)
+					if '\x00' in self.members[module].plat:
+						self.members[module].plat = ''
 					module += 1
 
 
@@ -762,16 +768,24 @@ class mnet_node:
 				# get remote IP
 				rip = snmpobj.cache_lookup(self.cdp_vbtbl, OID_CDP_IPADDR + '.' + ifidx + '.' + ifidx2)
 				rip = convert_ip_int_str(rip)
+				if '\x00' in rip:
+					rip = ''
 
 				# get local port
 				lport = self._get_ifname(ifidx)
+				if '\x00' in lport:
+					lport = ''
 
 				# get remote port
 				rport = snmpobj.cache_lookup(self.cdp_vbtbl, OID_CDP_DEVPORT + '.' + ifidx + '.' + ifidx2)
 				rport = shorten_port_name(rport)
-
+				if '\x00' in rport:
+					rport = 'Unknown'
+				
 				# get remote platform
 				rplat = snmpobj.cache_lookup(self.cdp_vbtbl, OID_CDP_DEVPLAT + '.' + ifidx + '.' + ifidx2)
+				if '\x00' in rplat:
+					rplat = 'Unknown'
 
 				# get IOS version
 				rios = snmpobj.cache_lookup(self.cdp_vbtbl, OID_CDP_IOS + '.' + ifidx + '.' + ifidx2)
@@ -781,7 +795,9 @@ class mnet_node:
 					except:
 						pass
 					rios = self._format_ios_ver(rios)
-
+				if '\x00' in rios:
+					rios = 'Unknown'
+				
 				link                  = self._get_node_link_info(ifidx, ifidx2)
 				link.remote_name      = val.prettyPrint()
 				link.remote_ip        = rip
@@ -994,8 +1010,14 @@ class mnet_node:
 				idx = t[12]
 
 				self.serial = snmpobj.cache_lookup(serial_vbtbl, OID_ENTPHYENTRY_SERIAL + '.' + idx)
+				if '\x00' in self.serial:
+					self.serial = ''
 				self.plat   = snmpobj.cache_lookup(platf_vbtbl, OID_ENTPHYENTRY_PLAT + '.' + idx)
+				if '\x00' in self.plat:
+					self.plat = ''
 				self.ios    = snmpobj.cache_lookup(ios_vbtbl, OID_ENTPHYENTRY_SOFTWARE + '.' + idx)
+				if '\x00' in self.ios:
+					self.ios = ''
 
 		# modular switches might have IOS on a module rather than chassis
 		if (self.ios == ''):

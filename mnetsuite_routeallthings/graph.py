@@ -146,17 +146,10 @@ class mnet_graph:
 
 		if not re.match(r'[A-Za-z0-9].*',node.name) or node.name == None:
 			node.name = 'UNKNOWN-DEVICE'
+		
+		if node.name.endswith('.'):
+			node.name = node.name[:-1]
 
-			'''
-			try:
-				for indip in node.ip:
-					ip = indip.split('.')
-					ip = '{:02X}{:02X}{:02X}{:02X}'.format(*map(int, ip))
-			except:
-				indip = node.ip
-				ip = indip.split('.')
-				ip = '{:02X}{:02X}{:02X}{:02X}'.format(*map(int, ip))
-			'''
 		# verify this node isn't already in our visited
 		# list by checking for its hostname
 		for ex in self.nodes:
@@ -520,7 +513,7 @@ class mnet_graph:
 			for svi in node.svis:
 				for ip in svi.ip:
 					dot_node.label += '<br />VLAN %s - %s' % (svi.vlan, ip)
-
+		
 		return dot_node
 
 
@@ -734,9 +727,7 @@ class mnet_graph:
 
 
 	def output_dot(self, dot_file, title):
-		print self
-		print dot_file
-		print title
+	
 		self._reset_crawled()
 
 		title_text_size = self.config.graph.title_text_size
