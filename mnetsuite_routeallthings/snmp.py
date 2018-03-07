@@ -142,28 +142,30 @@ class mnet_snmp:
 	# Returns 1 if success, 0 if failed.
 	#
 	def get_cred(self, snmp_creds):
-		for cred in snmp_creds:
-			# we don't currently support anything other than SNMPv2
-			if (cred['ver'] != 2):
-				continue
-			if IP_ADDRESS.match(self._ip):
-				community = cred['community']
-				cmdGen = cmdgen.CommandGenerator()
-				errIndication, errStatus, errIndex, varBinds = cmdGen.getCmd(
-						cmdgen.CommunityData(community),
-						cmdgen.UdpTransportTarget((self._ip, SNMP_PORT)),
-						'1.3.6.1.2.1.1.5.0',
-						lookupNames = False, lookupValues = False
-				)
-				if errIndication:
+		try:
+			for cred in snmp_creds:
+				# we don't currently support anything other than SNMPv2
+				if (cred['ver'] != 2):
 					continue
-				else:
-					self.ver = 2
-					self.success = 1
-					self.v2_community = community
-					return 1
-		return 0
-	
+				if IP_ADDRESS.match(self._ip):
+					community = cred['community']
+					cmdGen = cmdgen.CommandGenerator()
+					errIndication, errStatus, errIndex, varBinds = cmdGen.getCmd(
+							cmdgen.CommunityData(community),
+							cmdgen.UdpTransportTarget((self._ip, SNMP_PORT)),
+							'1.3.6.1.2.1.1.5.0',
+							lookupNames = False, lookupValues = False
+					)
+					if errIndication:
+						continue
+					else:
+						self.ver = 2
+						self.success = 1
+						self.v2_community = community
+						return 1
+			return 0
+		except:
+			return 0
 	#
 	# Get single SNMP value at OID.
 	#
