@@ -120,7 +120,7 @@ class mnet_graph:
 		node = mnet_node()
 		node.name = 'UNKNOWN'
 		node.ip = [ip]
-
+		
 		# vmware ESX reports the IP as 0.0.0.0
 		# return a minimal node since we don't have
 		# a real IP.
@@ -241,6 +241,12 @@ class mnet_graph:
                         if (stop):
                             continue
 
+			# Skip Device Check
+			if self.config.include_phones == 0:
+				# Skip Phones
+				if re.match('^SEP[A-Za-z0-9]{12}.*', n.remote_name):
+					continue
+							
 			# get the child info
 			if (n.remote_ip != 'UNKNOWN'):
 				child = self._get_node(n.remote_ip, depth+1, n.discovered_proto)
@@ -449,7 +455,7 @@ class mnet_graph:
 		dot_node.label = ''
 
 		dot_node.label = '<font point-size="10"><b>%s</b></font>' % node.name
-
+		
 		if (node.ip[0] != ''):
 			dot_node.label += '<br /><font point-size="8"><i>%s</i></font>' % node.ip[0]
 		
@@ -522,6 +528,7 @@ class mnet_graph:
 			return (0, 0)
 		if (node.crawled > 0):
 			return (0, 0)
+		
 		node.crawled = 1
 
 		dot_node = self._output_dot_get_node(graph, node)
@@ -769,7 +776,7 @@ class mnet_graph:
 
 		# get file extension
 		file_name, file_ext = os.path.splitext(dot_file)
-
+		
 		output_func = getattr(graph, 'write_' + file_ext.lstrip('.'))
 		if (output_func == None):
 			print('Error: Output type "%s" does not exist.' % file_ext)

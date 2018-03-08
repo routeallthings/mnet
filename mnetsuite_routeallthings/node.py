@@ -757,6 +757,7 @@ class mnet_node:
 		for row in self.cdp_vbtbl:
 			for name, val in row:
 				name = str(name)
+					
 				# process only if this row is a CDP_DEVID
 				if (name.startswith(OID_CDP_DEVID) == 0):
 					continue
@@ -806,7 +807,7 @@ class mnet_node:
 				link.remote_port      = rport
 				link.remote_plat      = rplat
 				link.remote_ios       = rios
-
+				
 				neighbors.append(link)
 
 		return neighbors
@@ -832,7 +833,7 @@ class mnet_node:
 				name = str(name)
 				if (name.startswith(OID_LLDP_TYPE) == 0):
 					continue
-
+					
 				t = name.split('.')
 				ifidx = t[12]
 				ifidx2 = t[13]
@@ -879,7 +880,7 @@ class mnet_node:
 				link.remote_plat      = None
 				link.remote_ios       = rimg
 				link.remote_mac       = devid
-
+				
 				neighbors.append(link)
 
 		return neighbors

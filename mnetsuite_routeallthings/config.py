@@ -44,7 +44,8 @@ class mnet_config:
 	snmp_cred	= []
 	exclude_subnets	= []
 	allowed_subnets	= []
-        exclude_hosts   = []
+    #exclude_hosts   = []
+	include_phones = False
 	graph = None
 
 	def __init__(self):
@@ -65,6 +66,7 @@ class mnet_config:
 		self.exclude_subnets	= json_data['exclude']
 		self.allowed_subnets	= json_data['subnets']
 		self.exclude_hosts      = json_data['exclude_hosts']
+		self.include_phones = json_data['include_phones']
 
 		json_graph = json_data.get('graph', None)
 		if (json_graph != None):
