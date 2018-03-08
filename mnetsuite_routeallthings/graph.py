@@ -149,9 +149,6 @@ class mnet_graph:
 		
 		if node.name.endswith('.'):
 			node.name = node.name[:-1]
-			
-		# Invalid Character Cleanup
-		node.name = re.sub('[^A-Za-z0-9._-]+', '', node.name)
 
 		# verify this node isn't already in our visited
 		# list by checking for its hostname

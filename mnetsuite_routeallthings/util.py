@@ -107,11 +107,13 @@ def shorten_host_name(host, domains):
 #		except:
 #			pass
 
-	# Nexus appends (SERIAL) to hosts
+	# Remove incorrect characters from name
 	host = re.sub('\([^\(]*\)$', '', host)
+	# Shorten name and remove spaces
+	host = re.sub('[^A-Za-z0-9._-]+', '', host)
 	for domain in domains:
 		host = host.replace(domain, '')
-
+	
 	host = re.sub('-', '_', host)
 	return host
 
