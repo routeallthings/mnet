@@ -411,7 +411,7 @@ class mnet_node:
 			return 1
 		else:
 			return 0
-
+	
 	# Query this node.
 	# Set .opts and .snmp_creds before calling.
 	def query_node(self):
@@ -431,12 +431,16 @@ class mnet_node:
 				for m2 in list2:
 					modeltype = str(m2)
 					modeltype = modeltype.strip(' ')
+		try:
+			modeltype = modeltype
+		except:
+			modeltype = ''
 		
 		# Figure out vendor from named product number
 		
 		# Device Match Lists
-		ciscoxelist = '3650 3850 9300 9400 9500 4500 4431 4451 4321 4331 4351 asr'
-		ciscoioslist = '3750 2960 3560 6500 2801 2811 2821 2851 2911 2921 2951 2901 3825 3845'
+		ciscoxelist = '3650 3850 9300 9400 9500 4500 4506 4507 4510 4431 4451 4321 4331 4351 asr'
+		ciscoioslist = '3750 2960 3560 6500 6506 6507 6510  2801 2811 2821 2851 2911 2921 2951 2901 3825 3845'
 		cisconxoslist = '7700 7000 Nexus N5K N7K N3K N4K N6K N9K N77'
 
 		# Device Match Lists Convert
