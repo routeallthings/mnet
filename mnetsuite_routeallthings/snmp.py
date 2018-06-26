@@ -208,11 +208,14 @@ class mnet_snmp:
 		else:
 			ret = []
 			for r in varBindTable:
-				for n, v in r:
-					n = str(n)
-					if (n.startswith(oid) == 0):
-						return ret
-					ret.append(r)
+				try:
+					for n, v in r:
+						n = str(n)
+						if (n.startswith(oid) == 0):
+							return ret
+						ret.append(r)
+				except:
+					continue
 			return ret
 
 		return None
