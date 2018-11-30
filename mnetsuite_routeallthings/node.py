@@ -423,14 +423,17 @@ class mnet_node:
 		
 		modelpattern = re.compile(r'\'\S+\'')
 		modeltypeoid = snmpobj.get_bulk('1.3.6.1.2.1.47.1.1.1.1.13')
-		modeltypeoid = modeltypeoid[:1]
-		for list1 in modeltypeoid:
-			for m in list1:
-				list2 = str(m)
-				list2 = list2.split('=')[1:]
-				for m2 in list2:
-					modeltype = str(m2)
-					modeltype = modeltype.strip(' ')
+		try:
+			modeltypeoid = modeltypeoid[:1]
+			for list1 in modeltypeoid:
+				for m in list1:
+					list2 = str(m)
+					list2 = list2.split('=')[1:]
+					for m2 in list2:
+						modeltype = str(m2)
+						modeltype = modeltype.strip(' ')
+		except:
+			modeltype = ''
 		try:
 			modeltype = modeltype
 		except:

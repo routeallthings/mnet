@@ -224,8 +224,10 @@ class mnet_graph:
 
 		if ((cdp_neighbors == None) & (lldp_neighbors == None)):
 			return
-
-		neighbors = cdp_neighbors + lldp_neighbors
+		try:
+			neighbors = cdp_neighbors + lldp_neighbors
+		except:
+			neighbors = cdp_neighbors
 
 		for n in neighbors:
 			# if the remote IP is not allowed, stop processing it here
