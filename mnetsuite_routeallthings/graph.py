@@ -248,7 +248,8 @@ class mnet_graph:
 				# Skip Phones
 				if re.match('^SEP[A-Za-z0-9]{12}.*', n.remote_name):
 					continue
-							
+				if re.match('^AVXF5[A-Za-z0-9]{4}.*', n.remote_name):
+					continue
 			# get the child info
 			if (n.remote_ip != 'UNKNOWN'):
 				child = self._get_node(n.remote_ip, depth+1, n.discovered_proto)
